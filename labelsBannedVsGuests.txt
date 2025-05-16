@@ -1,2 +1,2 @@
-0 Banned people
-1 Random guests
+Banned people
+Random guests

@@ -1,1 +1,0 @@
-# teachable-AI-dimmer

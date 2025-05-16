@@ -1,33 +1,39 @@
+# Use python 3.9
+# Use numpy 2.02 (latest supported)
+# Other packages: use latest version
+
 import numpy as np
 from PIL import Image
 import tensorflow as tf
 
-# --- Load your model and labels ---
 MODEL_PATH = "modelBannedVsGuests.tflite"
 LABELS_PATH = "labelsBannedVsGuests.txt"
-IMAGE_PATH = "IMG20250505123132.jpg"
+IMAGE_PATH = "blackDude.jpg"
 
-# Load labels
+#MODEL_PATH = "model.tflite"
+#LABELS_PATH = "labels.txt"
+
+# loading the labels
 with open(LABELS_PATH, "r") as f:
     labels = [line.strip() for line in f.readlines()]
 
-# Load and prepare image
+# prep image
 image = Image.open(IMAGE_PATH).convert("RGB").resize((224, 224))
 input_data = np.expand_dims(np.array(image, dtype=np.float32) / 255.0, axis=0)  # Normalize
 
-# Load TFLite model
+# load model
 interpreter = tf.lite.Interpreter(model_path=MODEL_PATH)
 interpreter.allocate_tensors()
 
-# Get input and output tensor details
+# Get input and output tensor stuff
 input_index = interpreter.get_input_details()[0]["index"]
 output_index = interpreter.get_output_details()[0]["index"]
 
-# Run inference
+# Run stuff
 interpreter.set_tensor(input_index, input_data)
 interpreter.invoke()
 output_data = interpreter.get_tensor(output_index)[0]
 
-# Print results
+#Print results
 for label, confidence in zip(labels, output_data):
     print(f"{label}: {confidence:.2%}")

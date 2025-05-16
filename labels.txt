@@ -1,2 +1,2 @@
-0 ikke dækket
-1 dækket
+0 face not covered by hands
+1 face covered by hands
